@@ -99,7 +99,7 @@ jobs:
               continue
             fi
 
-            helm upgrade --install $APP ./base-charts \
+            helm upgrade --install --kube-insecure-skip-tls-verify $APP ./base-charts \
               -f $VALUES_FILE \
               -n $NAMESPACE \
               --create-namespace
