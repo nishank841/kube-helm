@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistenceVolumeClaim
+metadata:
+  name: python-app-pvc
+  namespace: python-app
+  labels:
+    color: blue
+    language: python
+spec:
+  accessModes: ReadWriteOnce
+sotrageClass: kube-aws-gp3-storage
+resources:
+  requests:
+    storage: 1Gi
+
