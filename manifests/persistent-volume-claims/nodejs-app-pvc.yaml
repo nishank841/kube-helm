@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nodejs-app-pvc
+  namespace: nodejs-app
+  labels:
+    color: green
+    language: nodejs
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: kube-aws-gp3-storage
+  resources:
+    requests:
+      storage: 1Gi
