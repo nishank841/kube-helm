@@ -47,10 +47,7 @@ jobs:
       - name: Configure kubeconfig
         run: |
           mkdir -p $HOME/.kube
-          cat <<EOF > $HOME/.kube/config
-          ${{ secrets.KUBECONFIG }}
-          EOF
-
+          echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 -d > $HOME/.kube/config
       # -----------------------------
       # Detect changed apps
       # -----------------------------
