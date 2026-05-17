@@ -1,0 +1,109 @@
+name: Helm Deploy Apps
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "app-values/**"
+      - "base-charts/**"
+
+  workflow_dispatch:
+    inputs:
+      app:
+        description: "App name (python-app/nodejs-app). Leave empty to deploy all changed apps"
+        required: false
+        default: ""
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # -----------------------------
+      # Install Helm
+      # -----------------------------
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      # -----------------------------
+      # Install kubectl
+      # -----------------------------
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      # -----------------------------
+      # Setup kubeconfig
+      # -----------------------------
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+
+      # -----------------------------
+      # Detect changed apps
+      # -----------------------------
+      - name: Detect changed apps
+        id: changes
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.app }}" ]; then
+            echo "apps=${{ github.event.inputs.app }}" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Get changed files
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          # Extract app names from path: app-values/<app>/values.yaml
+          APPS=$(echo "$CHANGED_FILES" | grep "app-values/" | cut -d'/' -f2 | sort -u | tr '\n' ' ')
+
+          echo "apps=$APPS" >> $GITHUB_OUTPUT
+
+      # -----------------------------
+      # Deploy loop
+      # -----------------------------
+      - name: Deploy apps using Helm
+        run: |
+          set -e
+
+          APPS="${{ steps.changes.outputs.apps }}"
+
+          echo "Apps to deploy: $APPS"
+
+          if [ -z "$APPS" ]; then
+            echo "No app changes detected. Exiting."
+            exit 0
+          fi
+
+          for APP in $APPS; do
+            echo "--------------------------------------"
+            echo "Deploying: $APP"
+            echo "--------------------------------------"
+
+            NAMESPACE=$APP
+            VALUES_FILE="app-values/$APP/values.yaml"
+
+            if [ ! -f "$VALUES_FILE" ]; then
+              echo "Skipping $APP (no values.yaml found)"
+              continue
+            fi
+
+            helm upgrade --install $APP ./base-charts \
+              -f $VALUES_FILE \
+              -n $NAMESPACE \
+              --create-namespace
+
+            echo "$APP deployed successfully"
+          done
