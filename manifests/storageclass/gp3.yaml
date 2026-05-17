@@ -2,9 +2,9 @@ apiVersion: v1
 kind: StorageClass
 metadata:
   name: kube-aws-gp3-storage
-provisioner: ebs-csi-aws.com
-volumeBindingMode: WaitForFirstCustomer
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Delete
-allowVolumeExpansion: True
+allowVolumeExpansion: true
 parameters:
   type: gp3 
