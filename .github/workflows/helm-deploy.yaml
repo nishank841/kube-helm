@@ -47,7 +47,9 @@ jobs:
       - name: Configure kubeconfig
         run: |
           mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+          cat <<EOF > $HOME/.kube/config
+      ${{ secrets.KUBECONFIG }}
+      EOF
 
       # -----------------------------
       # Detect changed apps
