@@ -1,0 +1,28 @@
+replicaCount: 1
+
+namespace: nodejs-app
+
+persistence:
+  enabled: true
+  claimName: nodejs-app-pvc
+  mountPath: /data
+
+containers:
+  - name: nodejs-app
+    image: node:18
+    port: 3000
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 300m
+        memory: 256Mi
+    volumeMounts:
+      - name: app-storage
+        mountPath: /app/data
+
+volumes:
+  - name: app-storage
+    persistentVolumeClaim:
+      claimName: nodejs-app-pvc
