@@ -9,8 +9,8 @@ metadata:
 spec:
   accessModes: 
     - ReadWriteOnce
-storageClass: kube-aws-gp3-storage
-resources:
-  requests:
-    storage: 1Gi
+  storageClassName: kube-aws-gp3-storage
+  resources:
+    requests:
+      storage: 1Gi
 
