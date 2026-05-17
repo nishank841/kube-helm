@@ -48,8 +48,8 @@ jobs:
         run: |
           mkdir -p $HOME/.kube
           cat <<EOF > $HOME/.kube/config
-      ${{ secrets.KUBECONFIG }}
-      EOF
+          ${{ secrets.KUBECONFIG }}
+          EOF
 
       # -----------------------------
       # Detect changed apps
