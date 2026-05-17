@@ -1,0 +1,42 @@
+replicaCount: 2
+
+namespace: python-app
+
+persistence:
+  enabled: true
+  claimName: python-app-pvc
+  mountPath: /data
+
+containers:
+  - name: python-app
+    image: ghcr.io/nishank841/budget-app:latest
+    port: 8000
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 300m
+        memory: 256Mi
+    volumeMounts:
+      - name: app-storage
+        mountPath: /app/data
+
+  - name: mysql
+    image: mysql:8.0
+    port: 3306
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 300m
+        memory: 512Mi
+    env:
+      - name: MYSQL_ROOT_PASSWORD
+        value: rootpassword
+
+volumes:
+  - name: app-storage
+    persistentVolumeClaim:
+      claimName: python-app-pvc
