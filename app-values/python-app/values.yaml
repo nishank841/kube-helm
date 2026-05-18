@@ -1,5 +1,6 @@
 replicaCount: 1
 
+#namespace
 namespace: python-app
 
 persistence:
