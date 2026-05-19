@@ -5,7 +5,8 @@ metadata:
   namespace: python-app
 spec:
   selector:
-    app: python-app
+    app.kubernetes.io/name: app
+    app.kubernetes.io/instance: python-app  
   ports:
   - port: 80
     targetPort: 8080
