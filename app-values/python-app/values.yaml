@@ -10,8 +10,8 @@ persistence:
 
 containers:
   - name: python-app
-    image: ghcr.io/nishank841/budget-app:latest
-    port: 8000
+    image: nginx:latest
+    port: 80
     resources:
       requests:
         cpu: 200m
