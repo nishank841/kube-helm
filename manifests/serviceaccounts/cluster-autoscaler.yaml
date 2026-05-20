@@ -10,41 +10,28 @@ metadata:
   name: cluster-autoscaler
 rules:
   - apiGroups: [""]
-    resources:
-      - nodes
-      - pods
-      - services
-      - endpoints
-      - events
-      - configmaps
-      - namespaces
-      - persistentvolumes
-      - persistentvolumeclaims
-    verbs: ["get", "list", "watch", "create", "patch", "update"]
+    resources: ["events", "endpoints"]
+    verbs: ["create", "patch"]
 
-  - apiGroups: ["apps"]
-    resources:
-      - replicasets
-      - deployments
-      - statefulsets
-      - daemonsets
+  - apiGroups: [""]
+    resources: ["pods", "services", "replicationcontrollers", "persistentvolumeclaims", "persistentvolumes", "nodes"]
+    verbs: ["get", "list", "watch", "update", "patch"]
+
+  - apiGroups: ["extensions", "apps"]
+    resources: ["replicasets", "deployments", "statefulsets"]
     verbs: ["get", "list", "watch"]
 
-  - apiGroups: ["batch"]
-    resources:
-      - jobs
+  - apiGroups: ["policy"]
+    resources: ["poddisruptionbudgets"]
     verbs: ["get", "list", "watch"]
 
   - apiGroups: ["storage.k8s.io"]
-    resources:
-      - csinodes
-      - csistoragecapacities
+    resources: ["storageclasses", "csidrivers"]
     verbs: ["get", "list", "watch"]
 
   - apiGroups: ["coordination.k8s.io"]
-    resources:
-      - leases
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+    resources: ["leases"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
