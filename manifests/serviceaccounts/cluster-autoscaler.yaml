@@ -11,35 +11,47 @@ metadata:
 rules:
   - apiGroups: [""]
     resources:
-      - events
+      - nodes
       - endpoints
       - pods
-      - nodes
-      - namespaces
       - services
-      - configmaps
       - replicationcontrollers
-    verbs: ["get","list","watch","create","patch","update"]
+      - persistentvolumes
+      - persistentvolumeclaims
+      - events
+      - configmaps
+      - namespaces
+    verbs: ["get", "list", "watch", "create", "patch", "update"]
 
   - apiGroups: ["apps"]
-    resources: ["daemonsets","statefulsets","replicasets"]
-    verbs: ["get","list","watch"]
+    resources:
+      - daemonsets
+      - replicasets
+      - statefulsets
+    verbs: ["get", "list", "watch"]
 
   - apiGroups: ["batch"]
-    resources: ["jobs"]
-    verbs: ["get","list","watch"]
+    resources:
+      - jobs
+    verbs: ["get", "list", "watch"]
 
   - apiGroups: ["policy"]
-    resources: ["poddisruptionbudgets"]
-    verbs: ["get","list","watch"]
+    resources:
+      - poddisruptionbudgets
+    verbs: ["get", "list", "watch"]
 
   - apiGroups: ["storage.k8s.io"]
-    resources: ["csidrivers","csinodes","storageclasses","csistoragecapacities"]
-    verbs: ["get","list","watch"]
+    resources:
+      - storageclasses
+      - csidrivers
+      - csinodes
+      - csistoragecapacities
+    verbs: ["get", "list", "watch"]
 
   - apiGroups: ["coordination.k8s.io"]
-    resources: ["leases"]
-    verbs: ["get","list","watch","create","update","patch","delete"]
+    resources:
+      - leases
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
