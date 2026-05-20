@@ -20,9 +20,11 @@ spec:
           command:
             - ./cluster-autoscaler
             - --cloud-provider=aws
+            - --cluster-name=kubernetes
             - --nodes=1:5:kubernets-asg
             - --balance-similar-node-groups
             - --skip-nodes-with-system-pods=false
+            - --skip-nodes-with-local-storage=false
             - --expander=least-waste
           env:
             - name: AWS_REGION
