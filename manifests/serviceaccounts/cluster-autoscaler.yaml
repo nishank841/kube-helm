@@ -10,15 +10,15 @@ metadata:
   name: cluster-autoscaler
 rules:
   - apiGroups: [""]
-    resources: ["events", "endpoints"]
-    verbs: ["create", "patch"]
+    resources: ["events", "endpoints", "pods", "nodes", "namespaces", "services", "configmaps", "replicationcontrollers"]
+    verbs: ["get", "list", "watch", "create", "patch", "update"]
 
-  - apiGroups: [""]
-    resources: ["pods", "services", "replicationcontrollers", "persistentvolumeclaims", "persistentvolumes", "nodes"]
-    verbs: ["get", "list", "watch", "update", "patch"]
+  - apiGroups: ["apps"]
+    resources: ["daemonsets", "statefulsets", "replicasets"]
+    verbs: ["get", "list", "watch"]
 
-  - apiGroups: ["extensions", "apps"]
-    resources: ["replicasets", "deployments", "statefulsets"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
     verbs: ["get", "list", "watch"]
 
   - apiGroups: ["policy"]
@@ -26,12 +26,9 @@ rules:
     verbs: ["get", "list", "watch"]
 
   - apiGroups: ["storage.k8s.io"]
-    resources: ["storageclasses", "csidrivers"]
+    resources: ["csidrivers", "csinodes", "storageclasses", "csistoragecapacities"]
     verbs: ["get", "list", "watch"]
 
-  - apiGroups: ["coordination.k8s.io"]
-    resources: ["leases"]
-    verbs: ["get", "list", "watch", "create", "update", "patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
