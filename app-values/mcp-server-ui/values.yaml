@@ -23,6 +23,8 @@ containers:
           name: mcp-jira-secret
       - secretRef:
           name: mcp-anthropic-secret
+      - secretRef:
+          name: mcp-github-token
     volumeMounts:
       - name: app-storage
         mountPath: /app/data
