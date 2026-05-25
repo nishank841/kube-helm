@@ -1,0 +1,33 @@
+replicaCount: 1
+
+namespace: mcp-server-ui
+
+persistence:
+  enabled: true
+  claimName: mcp-server-ui-pvc
+  mountPath: /data
+
+containers:
+  - name: mcp-server-ui
+    image: ghcr.io/nishank841/mcp-server-ui:latest
+    port: 8080
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 300m
+        memory: 256Mi
+    envFrom:
+      - secretRef:
+          name: mcp-jira-secret
+      - secretRef:
+          name: mcp-anthropic-secret
+    volumeMounts:
+      - name: app-storage
+        mountPath: /app/data
+
+volumes:
+  - name: app-storage
+    persistentVolumeClaim:
+      claimName: mcp-server-ui-pvc

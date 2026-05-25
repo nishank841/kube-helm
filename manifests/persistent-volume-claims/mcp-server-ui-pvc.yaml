@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mcp-server-ui-pvc
+  namespace: mcp-server-ui
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: kube-aws-gp3-storage
+  resources:
+    requests:
+      storage: 1Gi

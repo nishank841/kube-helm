@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcp-server-ui-svc
+  namespace: mcp-server-ui
+spec:
+  selector:
+    app.kubernetes.io/name: app
+    app.kubernetes.io/instance: mcp-server-ui
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: NodePort
