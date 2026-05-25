@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: catering-service-pvc
+  namespace: catering-service
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: kube-aws-gp3-storage
+  resources:
+    requests:
+      storage: 1Gi
