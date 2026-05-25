@@ -24,6 +24,21 @@ containers:
           secretKeyRef:
             name: mcp-github-token
             key: GITHUB_TOKEN
+      - name: JIRA_URL
+        valueFrom:
+          secretKeyRef:
+            name: mcp-jira-secret
+            key: JIRA_URL
+      - name: JIRA_EMAIL
+        valueFrom:
+          secretKeyRef:
+            name: mcp-jira-secret
+            key: JIRA_EMAIL
+      - name: JIRA_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: mcp-jira-secret
+            key: JIRA_API_TOKEN
     resources:
       requests:
         cpu: 100m
