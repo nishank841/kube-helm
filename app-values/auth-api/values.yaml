@@ -9,8 +9,8 @@ persistence:
 
 containers:
   - name: auth-api
-    image: eclipse-temurin:21-jre
-    port: 8080
+    image: nginx:alpine
+    port: 80
     resources:
       requests:
         cpu: 100m
