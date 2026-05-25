@@ -1,0 +1,28 @@
+replicaCount: 1
+
+namespace: catering-service
+
+persistence:
+  enabled: true
+  claimName: catering-service-pvc
+  mountPath: /data
+
+containers:
+  - name: catering-service
+    image: nginx:latest
+    port: 80
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 300m
+        memory: 256Mi
+    volumeMounts:
+      - name: app-storage
+        mountPath: /app/data
+
+volumes:
+  - name: app-storage
+    persistentVolumeClaim:
+      claimName: catering-service-pvc
