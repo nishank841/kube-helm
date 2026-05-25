@@ -1,0 +1,33 @@
+replicaCount: 1
+
+namespace: mcp-server
+
+serviceAccount:
+  create: false
+  name: mcp-server
+
+podSecurityContext: {}
+
+podAnnotations: {}
+
+autoscaling:
+  enabled: false
+
+containers:
+  - name: mcp-server
+    image: nishank840/kube-helm-mcp:latest
+    pullPolicy: Always
+    port: 8000
+    env:
+      - name: GITHUB_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: mcp-github-token
+            key: GITHUB_TOKEN
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 300m
+        memory: 256Mi
