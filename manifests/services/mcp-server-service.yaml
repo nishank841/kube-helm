@@ -5,7 +5,8 @@ metadata:
   namespace: mcp-server
 spec:
   selector:
-    app: mcp-server
+    app.kubernetes.io/instance: mcp-server
+    app.kubernetes.io/name: app
   ports:
     - port: 8000
       targetPort: 8000
