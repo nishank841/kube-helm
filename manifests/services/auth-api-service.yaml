@@ -8,6 +8,7 @@ spec:
     app.kubernetes.io/name: app
     app.kubernetes.io/instance: auth-api
   ports:
-    - port: 80
-      targetPort: 80
+  - port: 80
+    targetPort: 80
+    nodePort: 30081
   type: NodePort
