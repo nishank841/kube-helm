@@ -9,8 +9,8 @@ persistence:
 
 containers:
   - name: mcp-server-ui
-    image: nginx:latest
-    port: 80
+    image: ghcr.io/nishank841/mcp-server-ui:latest
+    port: 8080
     resources:
       requests:
         cpu: 100m
@@ -18,6 +18,11 @@ containers:
       limits:
         cpu: 300m
         memory: 256Mi
+    envFrom:
+      - secretRef:
+          name: mcp-jira-secret
+      - secretRef:
+          name: mcp-anthropic-secret
     volumeMounts:
       - name: app-storage
         mountPath: /app/data
