@@ -9,5 +9,5 @@ spec:
     app.kubernetes.io/instance: mcp-server-ui
   ports:
   - port: 80
-    targetPort: 80
+    targetPort: 8080
   type: NodePort
