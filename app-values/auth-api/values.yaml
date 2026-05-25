@@ -1,5 +1,6 @@
 replicaCount: 1
 
+#namespace
 namespace: auth-api
 
 persistence:
@@ -9,7 +10,7 @@ persistence:
 
 containers:
   - name: auth-api
-    image: nginx:alpine
+    image: nginx:latest
     port: 80
     resources:
       requests:
