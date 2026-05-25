@@ -16,7 +16,7 @@ spec:
       serviceAccountName: mcp-server
       containers:
         - name: mcp-server
-          image: nishank841/kube-helm-mcp:latest
+          image: nishank840/kube-helm-mcp:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
